@@ -9,6 +9,7 @@ describe Gish::Commands::BasicCommand do
   it "has arguments and options" do
     @command.must_respond_to :arguments
     @command.must_respond_to :options
+    @command.must_respond_to :valid_options
   end
 
   it "has a dynamic execution method" do

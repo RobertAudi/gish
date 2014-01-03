@@ -6,13 +6,13 @@ module Gish
 
         options[:greedy] ||= false
 
-        eager_pattern = "\\b#{query}"
+        eager_pattern = "\\b#{Regexp.escape(query)}"
 
         if query.include?("/")
-          greedy_pattern = query.split("/").map { |p| p.split("").join(")[^\/]*?(").prepend("[^\/]*?(") + ")[^\/]*?" }.join("\/")
+          greedy_pattern = query.split("/").map { |p| p.split("").map { |c| Regexp.escape(c) }.join(")[^\/]*?(").prepend("[^\/]*?(") + ")[^\/]*?" }.join("\/")
           greedy_pattern << "\/" if query[-1] == "/"
         else
-          greedy_pattern = query.split("").join(").*?(").prepend(".*?(") + ").*?"
+          greedy_pattern = query.split("").map { |c| Regexp.escape(c) }.join(").*?(").prepend(".*?(") + ").*?"
         end
 
         eager_results = []

@@ -15,6 +15,7 @@ module Gish
           raise RuntimeError, "Directory is not a git repository (#{Dir.getwd})"
         end
 
+        @valid_options ||= []
         @arguments, @options = validate arguments: arguments, options: options
       end
 

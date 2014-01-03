@@ -19,7 +19,7 @@ module Gish
         },
         {
           short: "-r",
-          long: "-from-root",
+          long: "--from-root",
           description: "Act as if in the root of the repo",
           key: :from_root
         },

@@ -2,8 +2,6 @@ module Gish
   module Concerns
     module Findable
       def fuzzy_find(files, query, options = {})
-        raise ArgumentError if !files.is_a?(Array) || files.empty?
-
         options[:greedy] ||= false
 
         eager_pattern = "\\b#{Regexp.escape(query)}"

@@ -11,8 +11,7 @@ module Gish
         @project_root = File.directory?(File.join(Dir.getwd, ".git")) ? Dir.getwd : `\git rev-parse --show-toplevel 2> /dev/null`.strip
 
         if @project_root.empty?
-          # TODO: Set the appropriate status code here (128)
-          raise RuntimeError, "Directory is not a git repository (#{Dir.getwd})"
+          return "Directory is not a git repository (#{Dir.getwd})", Gish::NOT_A_REPO
         end
 
         @valid_options ||= []
@@ -29,7 +28,7 @@ module Gish
 
         options.keys.each do |o|
           unless self.valid_options.include?(o)
-            raise ArgumentError, "Invalid option (#{o})"
+            return "Invalid option (#{o})", Gish::INVALID_OPTION
           end
         end
 

@@ -1,5 +1,7 @@
 module Gish
   class Task
+    include Gish::Helpers::RainbowHelper
+
     attr_reader :command, :arguments, :options
 
     def initialize(command = "", arguments = [], options = {})
@@ -17,9 +19,8 @@ module Gish
 
     def run!
       command.send command.class::EXECUTION_METHOD
-
-      # TODO: Set the exit code appropriately
-      exit 0
+    rescue
+      return "", Gish::ERROR
     end
   end
 end

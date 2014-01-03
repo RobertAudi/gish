@@ -25,13 +25,13 @@ module Gish
 
         # Can't have both options at the same time
         if tracked_only && untracked_only
-          raise ArgumentError, "Cannot use both tracked only and untracked only filters"
+          return "Cannot use both tracked only and untracked only filters", Gish::INVALID_OPTION
         end
 
         status = `\git status --porcelain`.split("\n")
         status.delete_if { |f| f =~ /\A. / }
 
-        raise RuntimeError, "Nothing to add" if status.empty?
+        return "", Gish::OK if status.empty?
 
         files = {
           unprocessed: {
@@ -89,6 +89,8 @@ module Gish
 
         `\git add #{files[:add].join(" ")}` unless files[:add].empty?
         `\git rm #{files[:remove].join(" ")}` unless files[:remove].empty?
+
+        return "", Gish::OK
       end
 
       private

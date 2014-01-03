@@ -1,6 +1,16 @@
 # TODO: require the stuff below only if the debug mode is ON
 require "pp"
 
+module Gish
+  OK = 0
+  ERROR = 1
+  NOT_A_COMMAND = 128
+  NOT_A_REPO = 128
+  INVALID_OPTION = 129
+  TOO_MANY_CHANGES = 429
+  NO_CHANGES = 304
+end
+
 require_relative "./gish/version"
 require_relative "./gish/helpers"
 require_relative "./gish/concerns"

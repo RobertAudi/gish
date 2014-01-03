@@ -6,11 +6,18 @@ command = ARGV.shift
 # TODO: Show help if no command was passed
 unless Gish::Commands::LIST.include?(command)
   puts "gish: '#{command}' is not a gish command"
-  exit 1
+  exit Gish::NOT_A_COMMAND
 end
 
 option_parser = Gish::OptionParser.new command
 options = option_parser.parse ARGV
 
 gish = Gish::Task.new command, ARGV, options
-gish.run!
+output, code = gish.run!
+
+unless output.empty?
+  output = code > Gish::OK ? gish.red(output) : output
+  print output
+end
+
+exit code

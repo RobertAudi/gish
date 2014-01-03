@@ -22,6 +22,12 @@ module Gish
           long: "-from-root",
           description: "Act as if in the root of the repo",
           key: :from_root
+        },
+        {
+          short: "-g",
+          long: "--greedy",
+          description: "Filter the files greedily",
+          key: :greedy
         }
       ]
     }

@@ -7,7 +7,8 @@ module Gish
         @valid_options = [
           :untracked_only,
           :tracked_only,
-          :from_root
+          :from_root,
+          :greedy
         ]
 
         arguments = ["."] if arguments.empty?
@@ -16,9 +17,11 @@ module Gish
       end
 
       define_method EXECUTION_METHOD do
-        tracked_only   ||= (options.has_key?(:tracked_only))
-        untracked_only ||= (options.has_key?(:untracked_only))
-        from_root ||= (options.has_key?(:from_root))
+        tracked_only   = (options.has_key?(:tracked_only))
+        untracked_only = (options.has_key?(:untracked_only))
+        from_root      = (options.has_key?(:from_root))
+        greedy         = (options.has_key?(:greedy))
+
 
         # Can't have both options at the same time
         if tracked_only && untracked_only
@@ -63,8 +66,7 @@ module Gish
 
         unless arguments.first == "."
           arguments.each do |arg|
-            # TODO: Pass the greedy option as well
-            files[:found] << fuzzy_find(files[:unprocessed][:raw], arg)
+            files[:found] << fuzzy_find(files[:unprocessed][:raw], arg, greedy: greedy)
           end
 
           files[:found].flatten!

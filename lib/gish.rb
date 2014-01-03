@@ -2,6 +2,7 @@
 require "pp"
 
 require_relative "./gish/version"
+require_relative "./gish/helpers"
 require_relative "./gish/concerns"
 require_relative "./gish/commands"
 require_relative "./gish/task"

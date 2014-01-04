@@ -12,7 +12,12 @@ unless Gish::Commands::LIST.include?(command)
 end
 
 option_parser = Gish::OptionParser.new command
-options = option_parser.parse ARGV
+begin
+  options = option_parser.parse ARGV
+rescue OptionParser::InvalidOption => e
+  puts red(e.message)
+  exit Gish::INVALID_OPTION
+end
 
 gish = Gish::Task.new command, ARGV, options
 output, code = gish.run!

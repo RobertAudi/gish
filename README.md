@@ -1,7 +1,108 @@
 Gish
 ====
 
-This is a complete re-write of `gish` which comes as part of [`gishtank`](https://github.com/AzizLight/gishtank).
+<dl>
+  <dt>Gish</dt>
+  <dd>A warrior/mage hybrid, generally using magical powers to enhance his or her abilities in melee. From the Githyanki word " 'gish", meaning 'skilled'.</dd>
+</dl>
+
+*(Reference: [Urban Dictionary](http://gish.urbanup.com/6946625))*
+
+Requirements
+------------
+
+- Git
+- Ruby 1.9+
+
+### Recommended
+
+- Fish &mdash; *If you want to use the shell functions*
+
+Installation
+------------
+
+Clone the repository in your home directory (or anywhere else):
+
+```
+% git clone https://github.com/AzizLight/gish $HOME/.gish
+```
+
+If you want to enable the shell functions, source the init script in your Fish config file (`$HOME/.config/fish/config.fish`):
+
+```
+. $HOME/.gish/init.fish
+```
+
+You're done!
+
+Customization
+-------------
+
+The customizations are made on the shell through environment variables.
+
+### `GISH_STATUS_MAX_CHANGES`
+
+This environment variable represents the maximum number of changes that gish will display. If there are too many files in the `git status` output, gish will fall back to the native `git status` command, for performance reasons. If you experience lagging, try to lower the value of this variable. The default is `150`.
+
+```
+set -gx GISH_STATUS_MAX_CHANGES "150"
+```
+
+Commands
+--------
+
+### `add`
+
+*(Aliased to `ga`)*
+
+Fuzzy `git add`.
+
+#### Usage
+
+```
+> gish add [<option> ...] [<query> ...]
+```
+
+#### Options
+
+- `-u` or `--untracked`
+- `-t` or `--tracked`
+- `-r` or `--from-root`
+- `-g` or `--greedy`
+
+### `status`
+
+*(Aliased to `gs`)*
+
+Better `git status`.
+
+#### Usage
+
+```
+> gish status
+```
+
+Related
+-------
+
+- [SCM Breeze](https://github.com/ndbroadbent/scm_breeze)
+
+Contributing
+------------
+
+1. Fork it.
+2. Create a branch (`git checkout -b awesome-feature`)
+3. Commit your changes (`git commit -am "Add AWESOME feature"`)
+4. Push to the branch (`git push origin awesome-feature`)
+5. Open a [Pull Request](https://github.com/AzizLight/gish/pulls)
+
+### Guidelines
+
+- The first line of a commit message should be:
+    * Short
+    * In the present tense
+- The first line of a commit message **MUST NOT** end with a punctuation mark (i.e.: `.` or `!`)
+- If the commit has a lot of changes (which should NOT happen by the way), add a description after the commit message containing a list of the changes (among other things).
 
 License
 -------

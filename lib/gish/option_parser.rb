@@ -40,6 +40,12 @@ module Gish
           key: :directory
         },
         {
+          short: "-c",
+          long: "--command COMMAND",
+          description: "Shell command to get the files to filter",
+          key: :command
+        },
+        {
           short: "-r",
           long: "--refine",
           description: "Each query refines the search",

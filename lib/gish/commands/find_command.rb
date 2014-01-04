@@ -6,6 +6,7 @@ module Gish
       def initialize(arguments, options = {})
         @valid_options = [
           :directory,
+          :command,
           :greedy,
           :refine
         ]
@@ -19,8 +20,14 @@ module Gish
         greedy = (options.has_key?(:greedy))
         refine = (options.has_key?(:refine))
         directory = options[:directory] || Dir.getwd
+        command = options[:command]
 
-        files = Dir.glob(File.join(File.realpath(directory), "**", "*"))
+        if command
+          files = `#{command}`.split("\n")
+        else
+          files = Dir.glob(File.join(File.realpath(directory), "**", "*"))
+        end
+
         found = []
 
         if refine

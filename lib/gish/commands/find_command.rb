@@ -14,7 +14,7 @@ module Gish
       end
 
       define_method EXECUTION_METHOD do
-        return "Query required\n", Gish::ERROR
+        return "Query required\n", Gish::ERROR if arguments.empty?
 
         greedy = (options.has_key?(:greedy))
         refine = (options.has_key?(:refine))

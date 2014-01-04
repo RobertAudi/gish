@@ -7,8 +7,8 @@ module Gish
   NOT_A_COMMAND = 128
   NOT_A_REPO = 128
   INVALID_OPTION = 129
-  TOO_MANY_CHANGES = 429
-  NO_CHANGES = 304
+  TOO_MANY_CHANGES = 49
+  NO_CHANGES = 34
 end
 
 require_relative "./gish/version"

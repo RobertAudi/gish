@@ -10,6 +10,7 @@ module Gish
       def initialize(arguments = [], options = {})
         @project_root = File.directory?(File.join(Dir.getwd, ".git")) ? Dir.getwd : `\git rev-parse --show-toplevel 2> /dev/null`.strip
 
+        # FIXME: Return from the execution function, not the constructor
         if @project_root.empty?
           return "Directory is not a git repository (#{Dir.getwd})", Gish::NOT_A_REPO
         end

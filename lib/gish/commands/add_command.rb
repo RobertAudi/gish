@@ -96,14 +96,14 @@ module Gish
       private
 
       def untracked_files
-        untracked_files = `\git ls-files --other --exclude-standard`.split("\n")
-        untracked_files.map! { |f| f.prepend("?? ") }
+        files = `\git ls-files --other --exclude-standard`.split("\n")
+        files.map! { |f| f.prepend("?? ") }
 
         # The next two lines are necessary because of a bug in git
         dir = Dir.getwd.sub(/#{@project_root}\/?/, "")
-        untracked_files.map! { |f| dir.empty? ? f : f[0..2] + File.join(dir, f[3..-1]) }
+        files.map! { |f| dir.empty? ? f : f[0..2] + File.join(dir, f[3..-1]) }
 
-        untracked_files
+        files
       end
     end
   end

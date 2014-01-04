@@ -61,7 +61,7 @@ module Gish
         output << dark_color(" | ")
 
         if status.empty?
-          output << modified_color("No changes (working directory clean)")
+          output << modified_color("No changes (working directory clean)\n")
           return output, Gish::OK
         end
 

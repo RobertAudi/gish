@@ -71,7 +71,8 @@ module Gish
         # FIXME: Check if the first arg is a valid filter
         # TODO: Replace the filter conditional thingy below by a set of options
         if !arguments.empty? && GROUPS.keys.map(&:to_s).grep(/\A#{arguments.first}\Z/).empty?
-          output.prepend red("Invalid status filter: #{arguments.first}\n\n")
+          output.prepend red("Valid filters: staged, unmerged, unstaged, untracked\n\n")
+          output.prepend red("Invalid status filter: #{arguments.first}\n")
           valid_status_filter = false
         else
           valid_status_filter = true

@@ -30,6 +30,27 @@ module Gish
           description: "Filter the files greedily",
           key: :greedy
         }
+      ],
+      find: [
+        "Usage: gish add [<option> ...] [<query> ...]",
+        {
+          short: "-d",
+          long: "--directory DIRECTORY",
+          description: "Directory to search",
+          key: :directory
+        },
+        {
+          short: "-r",
+          long: "--refine",
+          description: "Each query refines the search",
+          key: :refine
+        },
+        {
+          short: "-g",
+          long: "--greedy",
+          description: "Filter the files greedily",
+          key: :greedy
+        }
       ]
     }
 
@@ -49,8 +70,8 @@ module Gish
         opts.separator ""
 
         command_options.each do |opt|
-          opts.on(opt[:short], opt[:long], opt[:description]) do
-            options[opt[:key]] = true
+          opts.on(opt[:short], opt[:long], opt[:description]) do |value|
+            options[opt[:key]] = value
           end
         end
       end

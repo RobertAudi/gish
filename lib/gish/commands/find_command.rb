@@ -35,9 +35,7 @@ module Gish
           files = found.flatten.uniq
         end
 
-        files.map! { |f| "\"#{f}\"" }
-
-        return files.join(" "), Gish::OK
+        return files.join("\n") + "\n", Gish::OK
       end
     end
   end

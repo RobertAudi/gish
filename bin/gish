@@ -2,6 +2,8 @@
 
 require_relative "../lib/gish"
 
+include Gish::Helpers::RainbowHelper
+
 command = ARGV.shift
 # TODO: Show help if no command was passed
 unless Gish::Commands::LIST.include?(command)
@@ -16,7 +18,7 @@ gish = Gish::Task.new command, ARGV, options
 output, code = gish.run!
 
 unless output.empty?
-  output = code > Gish::OK ? gish.red(output) : output
+  output = code > Gish::OK ? red(output) : output
   print output
 end
 

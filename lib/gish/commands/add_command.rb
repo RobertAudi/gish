@@ -1,6 +1,7 @@
 module Gish
   module Commands
     class AddCommand < BasicCommand
+      include Gish::Helpers::FileHelper
       include Gish::Concerns::Findable
 
       def initialize(arguments = [], options = {})
@@ -43,8 +44,15 @@ module Gish
           remove: []
         }
 
-        # Expand untracked directories
+        # Remove untracked files and replace the path to other files by a relative one
         status.delete_if { |f| f[0..1] == "??" }
+        status.map! do |f|
+          state = f[0..2]
+          relative_path(Dir.getwd, File.join(@project_root, f[3..-1])).prepend(state)
+        end
+
+        # Expand untracked directories and
+        # add them back to the status
         status << untracked_files
         status.flatten!
 
@@ -54,9 +62,7 @@ module Gish
         # If not in the project root, remove the files in other directories
         if @project_root != Dir.getwd && !from_root
           oldwd = Dir.getwd
-          Dir.chdir(@project_root)
           status.keep_if { |f| File.realpath(f[3..-1]) =~ /\A#{oldwd}/ }
-          Dir.chdir(oldwd)
         end
 
         status.each do |f|
@@ -96,12 +102,13 @@ module Gish
       private
 
       def untracked_files
-        files = `\git ls-files --other --exclude-standard`.split("\n")
-        files.map! { |f| f.prepend("?? ") }
+        oldwd = Dir.getwd
+        Dir.chdir(@project_root)
 
-        # The next two lines are necessary because of a bug in git
-        dir = Dir.getwd.sub(/#{@project_root}\/?/, "")
-        files.map! { |f| dir.empty? ? f : f[0..2] + File.join(dir, f[3..-1]) }
+        files = `\git ls-files --other --exclude-standard`.split("\n")
+        files.map! { |f| relative_path(oldwd, File.join(@project_root, f)).prepend("?? ") }
+
+        Dir.chdir(oldwd)
 
         files
       end

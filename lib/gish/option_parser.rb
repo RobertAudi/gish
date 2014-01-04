@@ -2,6 +2,7 @@ require "optparse"
 
 module Gish
   class OptionParser
+    # IMPROVE: Find a better way to set the options
     OPTIONS = {
       add: [
         "Usage: gish add [<option> ...] [<query> ...]",

@@ -1,6 +1,7 @@
 module Gish
   module Concerns
     module Findable
+      # IMPROVE: Permit the query to be more complex (e.g.: a regex)
       def fuzzy_find(files, query, options = {})
         options[:greedy] ||= false
 

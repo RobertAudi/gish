@@ -1,6 +1,7 @@
 module Gish
   module Commands
     class StatusCommand < BasicCommand
+      include Gish::Helpers::FileHelper
       include Gish::Helpers::RainbowHelper
 
       COLORS = {
@@ -172,17 +173,6 @@ module Gish
         end
 
         changes
-      end
-
-      def relative_path(base, target)
-        back = ""
-
-        while target.sub(base, "") == target
-          base = base.sub(/\/[^\/]*$/, "")
-          back = "../#{back}"
-        end
-
-        "#{back}#{target.sub("#{base}/","")}"
       end
 
       def output_for(group, changes)

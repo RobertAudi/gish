@@ -14,5 +14,5 @@ function gdc --description="git diff cached files"
     end
   end
 
-  command git diff --cached -- $arguments
+  command git diff --cached $arguments
 end

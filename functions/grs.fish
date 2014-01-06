@@ -1,4 +1,11 @@
 function grs --description="git reset"
+  if test -z (command git rev-parse --show-toplevel 2> /dev/null)
+    set_color red
+    echo "Not in a git repository"
+    set_color normal
+    return 1
+  end
+
   set -l arguments
 
   set -l cmd "command git diff --cached --name-only"

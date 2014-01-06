@@ -15,4 +15,5 @@ function gap --description="git add patch"
   end
 
   command git add -p $arguments
+  gs
 end

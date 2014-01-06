@@ -23,6 +23,6 @@ function gcv --description="git commit verbose"
     end
   end
 
-  command git commit --verbose $OPTV $ARGV
+  command git commit --verbose $OPTV $arguments
   gs
 end

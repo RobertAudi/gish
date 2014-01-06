@@ -23,6 +23,6 @@ function gc --description="git commit"
     end
   end
 
-  command git commit $OPTV $ARGV
+  command git commit $OPTV $arguments
   gs
 end

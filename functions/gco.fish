@@ -24,7 +24,7 @@ function gco --description="git checkout"
     end
   end
 
-  if test -z $arguments
+  if test (count $arguments) -eq 0
     set_color red
     echo "No matches found"
     set_color normal

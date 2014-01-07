@@ -22,7 +22,7 @@ function gcv --description="git commit verbose"
   if test (count $ARGV) -gt 0
     set arguments (gish find -c $cmd $ARGV)
 
-    if test -z $arguments
+    if test (count $arguments) -eq 0
       set_color red
       echo "No matches found"
       set_color normal

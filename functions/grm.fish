@@ -21,8 +21,6 @@ function grm --description="git rm"
 
   if test (count $ARGV) -gt 0
     set arguments (gish find -c $cmd $ARGV)
-
-    # TODO: echo a message if a particular query did not match anything
   end
 
   if test (count $arguments) -eq 0

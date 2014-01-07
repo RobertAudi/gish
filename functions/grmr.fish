@@ -19,8 +19,6 @@ function grmr --description="git rm recursively"
 
   if test (count $argv) -gt 0
     set arguments (gish find -c $cmd $argv)
-
-    # TODO: echo a message if a particular query did not match anything
   end
 
   if test (count $arguments) -eq 0

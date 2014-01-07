@@ -21,6 +21,6 @@ function grs --description="git reset"
     end
   end
 
-  command git reset $arguments
+  command git reset $arguments > /dev/null
   gs
 end

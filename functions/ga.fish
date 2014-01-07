@@ -1,4 +1,3 @@
-# TAGS: add
 function ga --description="Fuzzy git add"
   if test -z (command git rev-parse --show-toplevel 2> /dev/null)
     set_color red

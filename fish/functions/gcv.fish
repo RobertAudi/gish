@@ -17,7 +17,7 @@ function gcv --description="git commit verbose"
 
   set -l cmd "command git diff --cached --name-only"
 
-  eval "$GISH_DIR/include/parse $argv"
+  eval "$GISH_DIR/fish/include/parse $argv"
 
   if test (count $ARGV) -gt 0
     set arguments (gish find -c $cmd $ARGV)

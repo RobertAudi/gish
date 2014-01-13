@@ -10,7 +10,7 @@ function gco --description="git checkout"
 
   set -l cmd "git branch --no-color | command sed -E 's/^\*? ? //g'"
 
-  eval "$GISH_DIR/include/parse $argv"
+  eval "$GISH_DIR/fish/include/parse $argv"
 
   if test (count $ARGV) -gt 0
     set arguments (gish find -c $cmd $ARGV)

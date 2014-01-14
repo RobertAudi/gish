@@ -39,10 +39,9 @@ function gco --description="git checkout"
   end
 
   command git checkout --quiet $OPTV $arguments
+  gs
 
   set_color green
   echo "Swiched to branch '$arguments'"
   set_color normal
-
-  gs
 end

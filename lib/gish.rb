@@ -4,6 +4,7 @@ require "pp"
 module Gish
   OK = 0
   ERROR = 1
+  NO_MATCHES = 128
   NOT_A_COMMAND = 128
   NOT_A_REPO = 128
   INVALID_OPTION = 129

@@ -8,5 +8,8 @@ function ga --description="Fuzzy git add"
 
   gish add $argv
 
-  gs
+  if test $status -eq 0
+    echo ""
+    gs
+  end
 end

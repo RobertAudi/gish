@@ -77,6 +77,10 @@ module Gish
 
           files[:found].flatten!
 
+          if files[:found].empty?
+            return "No matches found\n", Gish::NO_MATCHES
+          end
+
           files[:unprocessed][:raw] = files[:found]
           files[:unprocessed][:full].keep_if { |f| files[:found].grep(/\A#{f[:file]}\Z/).count > 0 }
         end

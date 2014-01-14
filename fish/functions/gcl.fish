@@ -28,7 +28,7 @@ function gcl --description="git clone"
       set clipboard (pbpaste)
     end
 
-    git clone $clipboard > /dev/null ^ /dev/null
+    command git clone $clipboard > /dev/null ^ /dev/null
 
     if test $status -gt 0
       set_color red
@@ -41,7 +41,7 @@ function gcl --description="git clone"
     echo "Clone repository: $clipboard"
     set_color normal
   else
-    git clone $argv > /dev/null ^ /dev/null
+    command git clone $argv > /dev/null ^ /dev/null
 
     if test $status -gt 0
       set_color red

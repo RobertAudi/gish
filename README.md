@@ -66,7 +66,7 @@ For Fish:
 set -gx GISH_STATUS_MAX_CHANGES "150"
 ```
 
-For Bash or ZSH
+For Bash or ZSH:
 
 ```
 export GISH_STATUS_MAX_CHANGES=150

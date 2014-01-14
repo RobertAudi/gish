@@ -26,7 +26,7 @@ module Gish
 
         # Can't have both options at the same time
         if tracked_only && untracked_only
-          return "Cannot use both tracked only and untracked only filters", Gish::INVALID_OPTION
+          return "Cannot use both tracked only and untracked only filters\n", Gish::INVALID_OPTION
         end
 
         status = `\git status --porcelain`.split("\n")

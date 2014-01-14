@@ -22,10 +22,6 @@ Requirements
 - Git
 - Ruby 1.9+
 
-### Recommended
-
-- Fish &mdash; *If you want to use the shell functions*
-
 Installation
 ------------
 
@@ -35,13 +31,25 @@ Clone the repository in your home directory (or anywhere else):
 % git clone https://github.com/AzizLight/gish $HOME/.gish
 ```
 
-If you want to enable the shell functions, source the init script in your Fish config file (`$HOME/.config/fish/config.fish`):
+### Shell functions
+
+If you want to enable the shell functions, source the init script in your config file.
+
+#### Fish
+
+The Fish config file is typically in `$HOME/config/fish/config.fish`. Add that line to it:
 
 ```
 . $HOME/.gish/init.fish
 ```
 
-You're done!
+#### Bash or ZSH
+
+Add this line to you `.bashrc` or `.zshrc`:
+
+```
+. $HOME/.gish/init.sh
+```
 
 Customization
 -------------
@@ -52,8 +60,16 @@ The customizations are made on the shell through environment variables.
 
 This environment variable represents the maximum number of changes that gish will display. If there are too many files in the `git status` output, gish will fall back to the native `git status` command, for performance reasons. If you experience lagging, try to lower the value of this variable. The default is `150`.
 
+For Fish:
+
 ```
 set -gx GISH_STATUS_MAX_CHANGES "150"
+```
+
+For Bash or ZSH
+
+```
+export GISH_STATUS_MAX_CHANGES=150
 ```
 
 Commands

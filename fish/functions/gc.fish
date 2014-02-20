@@ -15,7 +15,7 @@ function gc --description="git commit"
 
   set -l arguments
 
-  set -l cmd "command git diff --cached --name-only"
+  set -l cmd "`which git` diff --cached --name-only"
 
   eval "$GISH_DIR/fish/include/parse $argv"
 

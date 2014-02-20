@@ -15,7 +15,7 @@ function grm --description="git rm"
 
   set -l arguments
 
-  set -l cmd "command git ls-files"
+  set -l cmd "`which git` ls-files"
 
   eval "$GISH_DIR/fish/include/parse $argv"
 

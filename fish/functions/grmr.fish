@@ -15,7 +15,7 @@ function grmr --description="git rm recursively"
 
   set -l arguments
 
-  set -l cmd "command git ls-files | command grep '/' | command sed -E 's/(.*\/).*(\..*)?/\1/g' | command sort | command uniq"
+  set -l cmd "`which git` ls-files | `which grep` '/' | `which sed` -E 's/(.*\/).*(\..*)?/\1/g' | `which sort` | `which uniq`"
 
   if test (count $argv) -gt 0
     set arguments (gish find -c $cmd $argv)

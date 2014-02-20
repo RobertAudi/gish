@@ -8,7 +8,7 @@ function gap --description="git add patch"
 
   set -l arguments
 
-  set -l cmd "command git diff --name-only"
+  set -l cmd "`which git` diff --name-only"
 
   if test (count $argv) -gt 0
     set arguments (gish find -c $cmd $argv)

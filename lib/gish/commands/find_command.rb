@@ -23,7 +23,7 @@ module Gish
         command = options[:command]
 
         if command
-          files = `#{command}`.split("\n")
+          files = %x(#{command}).split("\n")
         else
           files = Dir.glob(File.join(File.realpath(directory), "**", "*"))
         end

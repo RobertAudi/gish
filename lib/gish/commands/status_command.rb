@@ -33,13 +33,13 @@ module Gish
       end
 
       define_method EXECUTION_METHOD do
-        status = `\git status --porcelain`.split("\n")
+        status = %x(`which git` status --porcelain).split("\n")
 
         if status.count > ENV["GISH_STATUS_MAX_CHANGES"].to_i
           return "Too many changes", Gish::TOO_MANY_CHANGES
         end
 
-        git_branch_output = `\git branch -v 2> /dev/null`
+        git_branch_output = %x(`which git` branch -v 2> /dev/null)
         branch = git_branch_output[/^\* (\(no branch\)|[^ ]*)/, 1]
         ahead  = git_branch_output[/^\* [^ ]* *[^ ]* *\[ahead ?(\d+).*\]/, 1]
         behind = git_branch_output[/^\* [^ ]* *[^ ]* *\[.*behind ?(\d+)\]/, 1]
@@ -143,7 +143,7 @@ module Gish
 
           if has_modules? && File.read(File.join(@project_root, ".gitmodules")).include?(change[:file])
             # FIXME: I don't like this...This should be returned instead of the hidden setting of an instance variable
-            @long_status = `\git status`
+            @long_status = %x(`which git` status)
           end
 
           case raw_change[0..1]

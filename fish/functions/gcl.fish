@@ -2,14 +2,14 @@ function gcl --description="git clone"
   if test (count $argv) -eq 0
     set -l clipboard
 
-    command type pbpaste > /dev/null
+    type pbpaste > /dev/null
 
     if test $status -eq 1
       # NOTE: Everything beyond this point is not tested
-      command type xsel > /dev/null
+      type xsel > /dev/null
 
       if test $status -eq 1
-        command type xclip > /dev/null
+        type xclip > /dev/null
 
         if test $status -eq 1
           set_color red

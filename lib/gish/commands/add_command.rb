@@ -29,7 +29,7 @@ module Gish
           return "Cannot use both tracked only and untracked only filters\n", Gish::INVALID_OPTION
         end
 
-        status = `\git status --porcelain`.split("\n")
+        status = %x(`which git` status --porcelain).split("\n")
         status.delete_if { |f| f =~ /\A. / }
 
         return "", Gish::OK if status.empty?
@@ -97,8 +97,8 @@ module Gish
           end
         end
 
-        `\git add #{files[:add].join(" ")}` unless files[:add].empty?
-        `\git rm #{files[:remove].join(" ")}` unless files[:remove].empty?
+        %x(`which git` add #{files[:add].join(" ")}) unless files[:add].empty?
+        %x(`which git` rm #{files[:remove].join(" ")}) unless files[:remove].empty?
 
         return "", Gish::OK
       end
@@ -109,7 +109,7 @@ module Gish
         oldwd = Dir.getwd
         Dir.chdir(@project_root)
 
-        files = `\git ls-files --other --exclude-standard`.split("\n")
+        files = %x(`which git` ls-files --other --exclude-standard).split("\n")
         files.map! { |f| relative_path(oldwd, File.join(@project_root, f)).prepend("?? ") }
 
         Dir.chdir(oldwd)

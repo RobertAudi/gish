@@ -8,7 +8,7 @@ module Gish
       attr_reader :arguments, :options, :valid_options
 
       def initialize(arguments = [], options = {})
-        @project_root = File.directory?(File.join(Dir.getwd, ".git")) ? Dir.getwd : `\git rev-parse --show-toplevel 2> /dev/null`.strip
+        @project_root = File.directory?(File.join(Dir.getwd, ".git")) ? Dir.getwd : %x(`which git` rev-parse --show-toplevel 2> /dev/null).strip
 
         # FIXME: Return from the execution function, not the constructor
         if @project_root.empty?

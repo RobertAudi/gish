@@ -1,5 +1,5 @@
 __is_a_git_repo() {
-  local repo=$(command git rev-parse --show-toplevel 2> /dev/null)
+  local repo=$(`which git` rev-parse --show-toplevel 2> /dev/null)
   if [[ -z "$repo" ]]
   then
     echo -e "${RED}Not in a git repository${NO_COLOR}"
@@ -20,7 +20,7 @@ gs() {
       echo -e "${RED}Falling back to the basic \`git status\`${NO_COLOR}"
       echo ""
 
-      command git status
+      `which git` status
     fi
   fi
 }
@@ -38,7 +38,7 @@ gap() {
   if __is_a_git_repo
   then
     local argv=""
-    local cmd="command git diff --name-only"
+    local cmd="`which git` diff --name-only"
 
     if [[ "$1" ]]
     then
@@ -51,7 +51,7 @@ gap() {
       fi
     fi
 
-    command git add -p $argv
+    `which git` add -p $argv
     gs
   fi
 }
@@ -59,21 +59,21 @@ gap() {
 gb() {
   if __is_a_git_repo
   then
-    command git branch "$@"
+    `which git` branch "$@"
   fi
 }
 
 gba() {
   if __is_a_git_repo
   then
-    command git branch -a "$@"
+    `which git` branch -a "$@"
   fi
 }
 
 gbr() {
   if __is_a_git_repo
   then
-    command type hub > /dev/null
+    type hub > /dev/null
 
     if [[ $? -gt 0 ]]
     then
@@ -81,18 +81,18 @@ gbr() {
       return 1
     fi
 
-    command hub browse
+    `which hub` browse
   fi
 }
 
 gc() {
   if __is_a_git_repo
   then
-    local status=$(command git status --porcelain | command grep "^[^ ?]")
+    local status=$(`which git` status --porcelain | `which grep` "^[^ ?]")
     if [[ "$status" ]]
     then
       local argv=""
-      local cmd="command git diff --cached --name-only"
+      local cmd="`which git` diff --cached --name-only"
 
       parse "$@"
 
@@ -110,15 +110,15 @@ gc() {
       # NOTE: The if/else conditionals below are necessary due to a bug in git
       if [[ -z "${OPTV[0]}" && -z "$argv" ]]
       then
-        command git commit
+        `which git` commit
       elif [[ -z "${OPTV[0]}" ]]
       then
-        command git commit $argv
+        `which git` commit $argv
       elif [[ -z "$argv" ]]
       then
-        command git commit "${OPTV[@]}"
+        `which git` commit "${OPTV[@]}"
       else
-        command git commit "${OPTV[@]}" $argv
+        `which git` commit "${OPTV[@]}" $argv
       fi
 
       gs
@@ -132,7 +132,7 @@ gc() {
 gcd() {
   if __is_a_git_repo
   then
-    builtin cd $(command git rev-parse --show-toplevel)
+    builtin cd $(`which git` rev-parse --show-toplevel)
   fi
 }
 
@@ -141,17 +141,17 @@ gcl() {
   then
     local clipboard=""
 
-    command type pbpaste > /dev/null
+    type pbpaste > /dev/null
 
-    if [[ $(command type pbpaste) ]]
+    if [[ $(type pbpaste) ]]
     then
       clipboard=$(pbpaste)
-    elif [[ $(command type xsel) ]]
+    elif [[ $(type xsel) ]]
     then
-      clipboard=$(command xsel --clipboard --output)
-    elif [[ $(command type xclip) ]]
+      clipboard=$(xsel --clipboard --output)
+    elif [[ $(type xclip) ]]
     then
-      clipboard=$(command xclip -selection clipboard -o)
+      clipboard=$(xclip -selection clipboard -o)
     else
       echo -e "${RED}No clipboard management command was found${NO_COLOR}"
       echo -e "${RED}pbpaste, xsel or xclip required${NO_COLOR}"
@@ -159,7 +159,7 @@ gcl() {
       return 1
     fi
 
-    command git clone "$clipboard" > /dev/null 2> /dev/null
+    `which git` clone "$clipboard" > /dev/null 2> /dev/null
 
     if [[ $? -gt 0 ]]
     then
@@ -169,7 +169,7 @@ gcl() {
 
     echo -e "${GREEN}Clone repository: ${clipboard}${NO_COLOR}"
   else
-    command git clone "$@" > /dev/null 2> /dev/null
+    `which git` clone "$@" > /dev/null 2> /dev/null
 
     if [[ $? -gt 0 ]]
     then
@@ -184,7 +184,7 @@ gcl() {
 gcm() {
   if __is_a_git_repo
   then
-    local status=$(command git status --porcelain | command grep "^[^ ?]")
+    local status=$(`which git` status --porcelain | `which grep` "^[^ ?]")
     if [[ "$status" ]]
     then
       if [[ $# -eq 0 ]]
@@ -193,7 +193,7 @@ gcm() {
         return 1
       fi
 
-      command git commit -m "$@"
+      `which git` commit -m "$@"
       gs
     else
       echo -e "${YELLOW}Nothing to commit...${NO_COLOR}"
@@ -211,7 +211,7 @@ gco() {
       return 1
     fi
 
-    local cmd="git branch --no-color | command sed -E 's/^\*? ? //g'"
+    local cmd="`which git` branch --no-color | `which sed` -E 's/^\*? ? //g'"
     local branch=$(gish find -c "$cmd" "$1")
     shift
 
@@ -226,7 +226,7 @@ gco() {
       return 1
     fi
 
-    local current_branch=$(git branch --no-color | command grep "* ${branch[0]}")
+    local current_branch=$(git branch --no-color | `which grep` "* ${branch[0]}")
     if [[ "$current_branch" ]]
     then
       echo -e "${YELLOW}Already on branch '${branch[0]}'${NO_COLOR}"
@@ -236,9 +236,9 @@ gco() {
     # NOTE: The if/else conditionals below are necessary due to a bug in git
     if [[ "$1" ]]
     then
-      command git checkout --quiet "${branch[0]}" -- "$@"
+      `which git` checkout --quiet "${branch[0]}" -- "$@"
     else
-      command git checkout --quiet "${branch[0]}"
+      `which git` checkout --quiet "${branch[0]}"
     fi
 
     gs
@@ -255,14 +255,14 @@ gcob() {
       return 129
     fi
 
-    local existing_branch=$(command git branch --no-color | command sed -E "s/^\*? ? //g" | command grep -E "^$argv\$")
+    local existing_branch=$(`which git` branch --no-color | `which sed` -E "s/^\*? ? //g" | `which grep` -E "^$argv\$")
     if [[ "$existing_branch" ]]
     then
       echo -e "${RED}A branch named '$1' already exists${NO_COLOR}"
       return 128
     fi
 
-    command git checkout --quiet -b "$1"
+    `which git` checkout --quiet -b "$1"
     gs
 
     echo -e "${GREEN}Swiched to a new branch '$1'${NO_COLOR}"
@@ -277,7 +277,7 @@ gd() {
   if __is_a_git_repo
   then
     local argv=()
-    local cmd="command git status --porcelain | sed 's/^.\{3\}//g'"
+    local cmd="`which git` status --porcelain | sed 's/^.\{3\}//g'"
 
     if [[ "$1" ]]
     then
@@ -290,7 +290,7 @@ gd() {
       fi
     fi
 
-    command git diff $argv
+    `which git` diff $argv
   fi
 }
 
@@ -306,7 +306,7 @@ gdanger() {
       revision="$1"
     fi
 
-    command git reset --hard "$revision"
+    `which git` reset --hard "$revision"
   fi
 }
 
@@ -314,7 +314,7 @@ gdc() {
   if __is_a_git_repo
   then
     local argv=""
-    local cmd="command git diff --cached --name-only"
+    local cmd="`which git` diff --cached --name-only"
 
     if [[ "$1" ]]
     then
@@ -327,16 +327,16 @@ gdc() {
       fi
     fi
 
-    command git diff --cached $argv
+    `which git` diff --cached $argv
   fi
 }
 
 gl() {
   if __is_a_git_repo
   then
-    local top_level=$(command git rev-parse --show-toplevel 2> /dev/null)
+    local top_level=$(`which git` rev-parse --show-toplevel 2> /dev/null)
 
-    command ls "${top_level}/.git/logs" > /dev/null 2> /dev/null
+    `which ls` "${top_level}/.git/logs" > /dev/null 2> /dev/null
 
     if [[ $? -gt 0 ]]
     then
@@ -344,7 +344,7 @@ gl() {
       return 1
     fi
 
-    command git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit "$@"
+    `which git` log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit "$@"
   fi
 }
 
@@ -353,7 +353,7 @@ gla() {
 }
 
 gps() {
-  command git push "$@"
+  `which git` push "$@"
 }
 
 grm() {
@@ -366,7 +366,7 @@ grm() {
     fi
 
     local argv=""
-    local cmd="command git ls-files"
+    local cmd="`which git` ls-files"
 
     parse "$@"
 
@@ -383,9 +383,9 @@ grm() {
 
     if [[ -z "${OPTV[0]}" ]]
     then
-      command git rm --quiet $argv
+      `which git` rm --quiet $argv
     else
-      command git rm --quiet "${OPTV[@]}" $argv
+      `which git` rm --quiet "${OPTV[@]}" $argv
     fi
 
     gs
@@ -396,7 +396,7 @@ grs() {
   if __is_a_git_repo
   then
     local argv=""
-    local cmd="command git diff --cached --name-only"
+    local cmd="`which git` diff --cached --name-only"
 
     if [[ "$1" ]]
     then
@@ -409,7 +409,7 @@ grs() {
       fi
     fi
 
-    command git reset --quiet -- $argv
+    `which git` reset --quiet -- $argv
     gs
   fi
 }

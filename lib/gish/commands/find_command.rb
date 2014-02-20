@@ -42,7 +42,13 @@ module Gish
           files = found.flatten.uniq
         end
 
-        return files.join("\n") + "\n", Gish::OK
+        if files.empty?
+          files = ""
+        else
+          files = files.join("\n") + "\n"
+        end
+
+        return files, Gish::OK
       end
     end
   end

@@ -16,12 +16,20 @@ module Gish
           greedy_pattern = query.split("").map { |c| Regexp.escape(c) }.join(").*?(").prepend(".*?(") + ").*?"
         end
 
+        if query =~ /[A-Z]/
+          eager_pattern = Regexp.new(eager_pattern)
+          greedy_pattern = Regexp.new(greedy_pattern)
+        else
+          eager_pattern = Regexp.new(eager_pattern, Regexp::IGNORECASE)
+          greedy_pattern = Regexp.new(greedy_pattern, Regexp::IGNORECASE)
+        end
+
         eager_results = []
         greedy_results = []
         exact_match_found = false
 
         files.each do |f|
-          if f =~ /#{eager_pattern}/
+          if f =~ eager_pattern
             eager_results << f
             exact_match_found = true
             next
@@ -31,7 +39,7 @@ module Gish
             next unless options[:greedy]
           end
 
-          greedy_results << f if f =~ /#{greedy_pattern}/
+          greedy_results << f if f =~ greedy_pattern
         end
 
         if eager_results.empty? || options[:greedy]
